@@ -10,7 +10,7 @@ export default class Item {
     }
 
     get price() {
-        return this.price
+        return this._price
     }
 
     get quantity() {
