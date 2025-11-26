@@ -8,10 +8,10 @@ export default class Cart {
     get items() {
         console.log('Shopee cart list: ')
         this._products.forEach((item, index) => {
-            console.log(`${index+1}. ${item.name} - R$ ${item.price}| ${item.quantity} | Subtotal: ${item.getSubTotal().toFixed(2)}`)
+            console.log(`${index + 1}. ${item.name} - R$ ${item.price}| ${item.quantity} | Subtotal: ${item.getSubTotal().toFixed(2)}`)
         })
 
-        return 
+        return
     }
 
     addItem(item) {
@@ -31,7 +31,7 @@ export default class Cart {
         for (const item of this._products) {
             total += item.getSubTotal()
         }
-        return `Total: ${total}`
+        return `Total: ${total.toFixed(2)}`
     }
 
     deleteItem(itemName) {
@@ -40,6 +40,33 @@ export default class Cart {
                 this._products.splice(index, 1)
             }
         })
+        return
+    }
+
+    removeItem(itemName, quantity) {
+
+        const itemExists = this._products.map((item, index) => {
+            if (item.name === itemName && item.quantity >= quantity) {
+                item.quantity -= quantity
+                console.log(`Removed ${quantity} of ${item.name} from the cart.`)
+                if (item.quantity === 0) {
+                    this._products.splice(index, 1)
+                    console.log(`Item ${item.name} completely removed from the cart.`)
+                    return 1
+                }
+                return 1
+            }
+            if (item.name === itemName && item.quantity < quantity) {
+                this._products.splice(index, 1)
+                console.log(`Item ${item.name} completely removed from the cart.`)
+                return 1
+            }
+
+        })
+        if (itemExists !== 1) {
+            console.log(`Item ${itemName} not found.`)
+            return
+        }
     }
 
 }
